@@ -5,7 +5,7 @@ const controller = require("../controllers/queryController");
 const router = Router();
 
 // добавляем маршруты для запросов
-router.get("/", controller.getCooperator); // вызов метода getCooperator (находиться в файле controller.js) для объекта controller
+router.get("/", controller.getCooperator); 
 router.get("/:id", controller.getCooperatorById);
 router.post("/", controller.addCooperator);
 router.put("/:id", controller.updateCooperator);
