@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/procedure
+Content-Type: application/json
+
+{
+    "last_name": "Фамилия", 
+    "name": "Имя", 
+    "birthday": "10.10.2001",  
+    "city": "Уфа", 
+    "dept_name": "Отдел",
+    "comp_name": "Компания"
+}

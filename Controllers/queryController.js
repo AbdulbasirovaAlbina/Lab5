@@ -2,7 +2,7 @@
 const pool = require("../db");
 const queries = require("../queries");
 
-//выборка всех записей из таблицы Cooperator
+//выборка всех записей из таблицы Coopertor
 const getCooperator = (req, res) => {
   pool.query(queries.getCooperator, (error, results) => {
     if (error) throw error;
@@ -20,46 +20,45 @@ const getCooperatorById = (req, res) => {
   });
 };
 
-//добавление записи в таблицу Cooperator
+//добавление записи в таблицу Coopertor
 const addCooperator = (req, res) => {
-  const { last_name, name, birthday, city, dept_id, phone_number, passport_num, passport_ser, passport_data, salary, category, start_date } = req.body; // извлекаем данные из тела объекта
+  const { surname, name, birthday, city, salary, category, start_date, dept_id, phone_number, passport_num, passport_ser, passport_data } = req.body; // извлекаем данные из тела объекта
 
   // перед добавлением новой записи проверим есть ли такой сотрудник уже в БД
-  pool.query(queries.checkLastnameCooperator, [last_name], (error, results) => {
+  pool.query(queries.checkLastnameCooperator, [surname], (error, results) => {
     if (results.rows.length) {
-      res.send("Last name already exists");
-    } else {
-      //если такого сотрудника нет в БД тогда выполняем следующее:
-      pool.query(
-        queries.addCooperator,
-        [last_name, name, birthday, city, dept_id, phone_number, passport_num, passport_ser, passport_data, salary, category, start_date],
-        (error, results) => {
-          if (error) throw error; //если есть ошибка, то вывести сообщение об ошибке
-          res.status(201).send("Cooperator inserted");
-          console.log("Cooperator inserted");
-        }
-      );
+      res.send("Surname already exists");
     }
+    //если такого сотрудника нет в БД тогда выполняем следующее:
+    pool.query(
+      queries.addCooperator,
+      [surname, name, birthday, city, salary, category, start_date, dept_id, phone_number, passport_num, passport_ser, passport_data],
+      (error, results) => {
+        if (error) throw error; //если есть ошибка, то вывести сообщение об ошибке
+        res.status(201).send("Cooperator insered");
+        console.log("Cooperator insered");
+      }
+    );
   });
 };
 
 //изменение фамилии сотрудника по значению id
 const updateCooperator = (req, res) => {
   const id = parseInt(req.params.id);
-  const { last_name } = req.body;
+  const { surname } = req.body;
 
   //добавим проверку существует ли заданный по id сотрудник в таблице Cooperator
   pool.query(queries.getCooperatorById, [id], (error, results) => {
     const noCooperatorFound = !results.rows.length;
     if (noCooperatorFound) {
       res.send("Cooperator does not exist in the DB");
-    } else {
-      // если сотрудник с заданным значением id существует, тогда выполняем следующие действия
-      pool.query(queries.updateCooperator, [last_name, id], (error, results) => {
-        if (error) throw error;
-        res.status(200).send("Cooperator updated successfully");
-      });
     }
+
+    // если сотрудник с заданным значением id существует, тогда выполняем следующие действия
+    pool.query(queries.updateCooperator, [surname, id], (error, results) => {
+      if (error) throw error;
+      res.status(200).send("Cooperator update successfully");
+    });
   });
 };
 
@@ -73,13 +72,12 @@ const removeCooperator = (req, res) => {
     const noCooperatorFound = !results.rows.length;
     if (noCooperatorFound) {
       res.send("Cooperator does not exist in the DB");
-    } else {
-      // если id сотрудника есть в таблице, тогда удалем этого сотрудника
-      pool.query(queries.removeCooperator, [id], (error, results) => {
-        if (error) throw error;
-        res.status(200).send("Cooperator removed successfully");
-      });
     }
+    // если id сотрудника есть в таблице, тогда удалем этого сотрудника
+    pool.query(queries.removeCooperator, [id], (error, results) => {
+      if (error) throw error;
+      res.status(200).send("Cooperator remove successfully");
+    });
   });
 };
 

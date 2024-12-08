@@ -1,7 +1,7 @@
 require("dotenv").config(); // библиотека dotenv загружает переменные среды из файла .env
 
 // создание нового подключения к базе данных PostgreSQL с использованием модуля Pool из библиотеки pg.
-const { Pool } = require("pg"); 
+const { Pool } = require("pg");
 
 const pool = new Pool({
   user: process.env.DB_USER,
