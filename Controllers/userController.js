@@ -4,7 +4,6 @@ const pool = require("../db"); // Подключение к базе данны�
 
 const secretKey = process.env.secretKey; // Секретный ключ для JWT
 
-// Аутентификация пользователя
 const getLogin = async (req, res) => {
   const { username, password } = req.body; // Получаем данные из формы
 
@@ -57,9 +56,7 @@ const getLogin = async (req, res) => {
   }
 };
 
-// Проверка наличия пользователя и редирект
 const getRedirectHome = async (req, res) => {
-  // Проверяем наличие cookies с токеном и именем пользователя
   if (req.cookies && req.cookies.token && req.cookies.username) {
     const user = req.cookies.username;
     res.send(`С возвращением, ${user}!`);

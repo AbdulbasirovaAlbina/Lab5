@@ -27,15 +27,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//app.get("/", (req, res)=> {
- //   res.send("Hello"); //метод get получает параметры: 1) url, 2) функцию collback с параметрами запрос и ответ
-//});
+
 
 app.get('/home', (req, res) => {
   if (req.isAuthenticated()) {
-    res.send(`Привет, ${req.user.username}!`);
+    res.send(`Hello, ${req.user.username}!`);
   } else {
-    res.send('Привет');
+    res.send('Hello');
   }
 });
 

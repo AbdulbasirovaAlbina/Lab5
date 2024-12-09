@@ -20,7 +20,6 @@ const getCooperatorById = (req, res) => {
   });
 };
 
-//добавление записи в таблицу Coopertor
 const addCooperator = (req, res) => {
   const { surname, name, birthday, city, salary, category, start_date, dept_id, phone_number, passport_num, passport_ser, passport_data } = req.body; // извлекаем данные из тела объекта
 
@@ -42,19 +41,18 @@ const addCooperator = (req, res) => {
   });
 };
 
-//изменение фамилии сотрудника по значению id
 const updateCooperator = (req, res) => {
   const id = parseInt(req.params.id);
   const { surname } = req.body;
 
-  //добавим проверку существует ли заданный по id сотрудник в таблице Cooperator
+  
   pool.query(queries.getCooperatorById, [id], (error, results) => {
     const noCooperatorFound = !results.rows.length;
     if (noCooperatorFound) {
       res.send("Cooperator does not exist in the DB");
     }
 
-    // если сотрудник с заданным значением id существует, тогда выполняем следующие действия
+    
     pool.query(queries.updateCooperator, [surname, id], (error, results) => {
       if (error) throw error;
       res.status(200).send("Cooperator update successfully");
